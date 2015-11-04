@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<io.codetail.widget.RevealLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="@dimen/elevation"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="invisible"/>
+
+</io.codetail.widget.RevealLinearLayout>
