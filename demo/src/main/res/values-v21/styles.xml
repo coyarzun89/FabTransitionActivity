@@ -7,13 +7,18 @@
         <item name="colorAccent">@color/primary</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="android:windowBackground">@color/window_background</item>
-        <!-- The style for the widgets on the ActionBar. -->
-        <item name="actionBarWidgetTheme">@style/WidgetStyle</item>
+        <item name="actionBarTheme">@style/MyApp.ActionBarTheme</item>
     </style>
+
     <style name="ToolBarStyle" parent="">
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
+        <item name="android:theme">@style/ToolbarControlStyle</item>
     </style>
+
+    <style name="ToolbarControlStyle" parent="@style/ThemeOverlay.AppCompat.Dark">
+        <item name="colorControlNormal">#FFF</item>
+    </style>
+
     <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">18sp</item>
     </style>
@@ -22,8 +27,8 @@
         <item name="spinBars">true</item>
         <item name="color">#FFFFFF</item>
     </style>
-
-    <style name="WidgetStyle" parent="style/ThemeOverlay.AppCompat.Light">
+    <style name="MyApp.ActionBarTheme" parent="@style/Theme.AppCompat.NoActionBar">
+        <!-- THIS is where you can color the arrow! -->
         <item name="colorControlNormal">@android:color/white</item>
     </style>
 </resources>

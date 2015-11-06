@@ -1,13 +1,14 @@
 package cl.cristopher.fabtransitionactivity.demo;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 
 
-public class AfterFabAnimationActivity extends AppCompatActivity {
+public class AfterFabAnimationActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,14 +16,7 @@ public class AfterFabAnimationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_after_fab_animation);
         ButterKnife.bind(this);
-
-        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-        setSupportActionBar(toolBar);
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Solicitar Producto");
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        setUpToolbarWithTitle(getString(R.string.COMPOSE), true);
     }
 
     @Override
@@ -31,12 +25,22 @@ public class AfterFabAnimationActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    protected void enterFromBottomAnimation(){
-        overridePendingTransition(R.anim.activity_open_translate_from_bottom, R.anim.activity_no_animation);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_send, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
-
-    protected void exitToBottomAnimation(){
-        overridePendingTransition(R.anim.activity_no_animation, R.anim.activity_close_translate_to_bottom);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_send:
+                Toast.makeText(getApplicationContext(), "Yeah!", Toast.LENGTH_SHORT).show();
+                break;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

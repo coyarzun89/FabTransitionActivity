@@ -3,4 +3,11 @@
     <color name="primary">#F44336</color>
     <color name="primary_dark">#D32F2F</color>
     <color name="window_background">#FFF5F5F5</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+
+    <color name="one_round">#9ccc65</color>
+    <color name="two_round">#a1887f</color>
+    <color name="three_round">#90a4ae</color>
+    <color name="four_round">#7986cb</color>
 </resources>

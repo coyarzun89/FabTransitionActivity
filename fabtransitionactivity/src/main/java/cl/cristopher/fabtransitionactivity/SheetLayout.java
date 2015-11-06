@@ -23,7 +23,7 @@ import android.widget.LinearLayout;
 
 import io.codetail.animation.SupportAnimator;
 
-public class BottomSheetLayout extends FrameLayout implements View.OnTouchListener {
+public class SheetLayout extends FrameLayout implements View.OnTouchListener {
 
     private static final int DEFAULT_ANIMATION_DURATION = 350;
     private static final int DEFAULT_FAB_SIZE = 56;
@@ -51,18 +51,18 @@ public class BottomSheetLayout extends FrameLayout implements View.OnTouchListen
         return true;
     }
 
-    public BottomSheetLayout(Context context) {
+    public SheetLayout(Context context) {
         super(context);
         init();
     }
 
-    public BottomSheetLayout(Context context, AttributeSet attrs) {
+    public SheetLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
         loadAttributes(context, attrs);
     }
 
-    public BottomSheetLayout(Context context, AttributeSet attrs, int defStyle) {
+    public SheetLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
         loadAttributes(context, attrs);

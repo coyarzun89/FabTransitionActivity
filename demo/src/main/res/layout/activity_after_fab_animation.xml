@@ -15,19 +15,5 @@
         android:minHeight="56dp"
         android:elevation="2dp" />
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_centerInParent="true"
-            android:layout_width="match_parent" android:layout_height="wrap_content">
-        <Button
-                android:id="@+id/start_fab_toolbar_demo"
-                android:text="@string/fab_toolbar_demo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        <Button
-                android:id="@+id/start_bottom_sheet_demo"
-                android:text="@string/bottom_sheet_demo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-    </LinearLayout>
+
 </RelativeLayout>
