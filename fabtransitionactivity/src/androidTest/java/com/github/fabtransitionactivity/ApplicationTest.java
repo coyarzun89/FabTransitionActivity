@@ -1,4 +1,4 @@
-package com.bowyer.fabtransitionlayout;
+package com.github.fabtransitionactivity;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

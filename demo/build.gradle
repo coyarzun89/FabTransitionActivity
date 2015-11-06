@@ -13,7 +13,7 @@ android {
     buildToolsVersion BUILD_TOOLS_VERSION
 
     defaultConfig {
-        applicationId "cl.cristopher.fabtransitionactivity.demo"
+        applicationId "com.github.fabtransitionactivity.demo"
         minSdkVersion MIN_SDK_VERSION
         targetSdkVersion TARGET_SDK_VERSION as int
         versionCode VERSION_CODE as int

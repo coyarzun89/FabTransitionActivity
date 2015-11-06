@@ -1,4 +1,4 @@
-package cl.cristopher.fabtransitionactivity.demo;
+package com.github.fabtransitionactivity.demo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;

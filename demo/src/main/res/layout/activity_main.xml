@@ -33,7 +33,7 @@
         app:fabSize="normal"
         app:rippleColor="@color/primary"/>
 
-    <cl.cristopher.fabtransitionactivity.SheetLayout
+    <com.github.fabtransitionactivity.SheetLayout
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
