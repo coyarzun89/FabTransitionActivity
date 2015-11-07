@@ -1,4 +1,4 @@
-package cl.cristopher.fabtransitionactivity.demo;
+package com.github.fabtransitionactivity.demo;
 
 import android.os.Bundle;
 import android.view.Menu;

@@ -1,4 +1,4 @@
-package cl.cristopher.fabtransitionactivity;
+package com.github.fabtransitionactivity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -9,11 +9,11 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -23,7 +23,7 @@ import android.widget.LinearLayout;
 
 import io.codetail.animation.SupportAnimator;
 
-public class SheetLayout extends FrameLayout implements View.OnTouchListener {
+public class SheetLayout extends FrameLayout {
 
     private static final int DEFAULT_ANIMATION_DURATION = 350;
     private static final int DEFAULT_FAB_SIZE = 56;
@@ -44,12 +44,6 @@ public class SheetLayout extends FrameLayout implements View.OnTouchListener {
     private int mFabSize;
 
     OnFabAnimationEndListener mListener;
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        contractFab();
-        return true;
-    }
 
     public SheetLayout(Context context) {
         super(context);
@@ -169,11 +163,28 @@ public class SheetLayout extends FrameLayout implements View.OnTouchListener {
 
     public void expandFab() {
         mFabType = FAB_EXPAND;
+        mAnimatingFab = true;
 
+        // Center point on the screen of the FAB.
+        int x = (int) (centerX(mFab));
+        int y = (int) (centerY(mFab));
+
+        // Start and end radius of the sheet expand animation.
+        float startRadius = getFabSizePx() / 2;
+        float endRadius = calculateStartRadius(x, y);
+
+        mFabExpandLayout.setAlpha(0f);
+        mFabExpandLayout.setVisibility(View.VISIBLE);
+
+        mFab.setVisibility(View.INVISIBLE);
+        mFab.setTranslationX(0f);
+        mFab.setTranslationY(0f);
+
+        mFab.setAlpha(1f);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            expandPreLollipop();
+            expandPreLollipop(x, y, startRadius, endRadius);
         } else {
-            expandLollipop();
+            expandLollipop(x, y, startRadius, endRadius);
         }
     }
 
@@ -183,11 +194,23 @@ public class SheetLayout extends FrameLayout implements View.OnTouchListener {
         }
 
         mFabType = FAB_CIRCLE;
+        mAnimatingFab = true;
+
+        mFab.setAlpha(0f);
+        mFab.setVisibility(View.VISIBLE);
+
+        // Center point on the screen of the FAB.
+        int x = (int) (centerX(mFab));
+        int y = (int) (centerY(mFab));
+
+        // Start and end radius of the toolbar contract animation.
+        float endRadius = getFabSizePx() / 2;
+        float startRadius = calculateStartRadius(x, y);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            contractPreLollipop();
+            contractPreLollipop(x, y, startRadius, endRadius);
         } else {
-            contractLollipop();
+            contractLollipop(x, y, startRadius, endRadius);
         }
     }
 
@@ -196,32 +219,11 @@ public class SheetLayout extends FrameLayout implements View.OnTouchListener {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void expandLollipop() {
-        mAnimatingFab = true;
-
-        // Center point on the screen of the FAB after translation. Used as the start point
-        // for the expansion animation of the toolbar.
-        int x = (int) (ViewUtils.centerX(mFab));
-        int y = (int) (ViewUtils.centerY(mFab));
-
-        // Start and end radii of the toolbar expand animation.
-        float startRadius = getFabSizePx() / 2;
-        float endRadius = (float) Math.hypot(
-                Math.max(x, mFabExpandLayout.getWidth() - x),
-                Math.max(y, mFabExpandLayout.getHeight() - y));
-
-        mFabExpandLayout.setAlpha(0f);
-        mFabExpandLayout.setVisibility(View.VISIBLE);
-
-        mFab.setVisibility(View.INVISIBLE);
-        mFab.setTranslationX(0f);
-        mFab.setTranslationY(0f);
-        mFab.setAlpha(1f);
+    private void expandLollipop(int x, int y, float startRadius, float endRadius) {
 
         Animator toolbarExpandAnim = ViewAnimationUtils.createCircularReveal(
                 mFabExpandLayout, x, y, startRadius, endRadius);
-        toolbarExpandAnim.setStartDelay(animationDuration / 2);
-        toolbarExpandAnim.setDuration(animationDuration / 2);
+        toolbarExpandAnim.setDuration(animationDuration);
         toolbarExpandAnim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -232,9 +234,7 @@ public class SheetLayout extends FrameLayout implements View.OnTouchListener {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                mAnimatingFab = false;
-                if(mListener!=null)
-                    mListener.onFabAnimationEnd();
+                expandAnimationEnd();
 
             }
         });
@@ -242,33 +242,12 @@ public class SheetLayout extends FrameLayout implements View.OnTouchListener {
         toolbarExpandAnim.start();
     }
 
-    private void expandPreLollipop() {
-        mAnimatingFab = true;
+    private void expandPreLollipop(int x, int y, float startRadius, float endRadius) {
 
-        // Center point on the screen of the FAB after translation. Used as the start point
-        // for the expansion animation of the toolbar.
-        int x = (int) (ViewUtils.centerX(mFab));
-        int y = (int) (ViewUtils.centerY(mFab));
-
-        // Start and end radii of the toolbar expand animation.
-        float startRadius = getFabSizePx() / 2;
-        float endRadius = (float) Math.hypot(
-                Math.max(x, mFabExpandLayout.getWidth() - x),
-                Math.max(y, mFabExpandLayout.getHeight() - y));
-
-        mFabExpandLayout.setAlpha(0f);
-        mFabExpandLayout.setVisibility(View.VISIBLE);
-
-        mFab.setVisibility(View.INVISIBLE);
-        mFab.setTranslationX(0f);
-        mFab.setTranslationY(0f);
-        mFab.setAlpha(0f);
-
-        final SupportAnimator toolbarExpandAnim = io.codetail.animation.ViewAnimationUtils
+        SupportAnimator toolbarExpandAnim = io.codetail.animation.ViewAnimationUtils
                 .createCircularReveal(
                         mFabExpandLayout, x, y, startRadius, endRadius);
-        toolbarExpandAnim.setDuration(animationDuration / 2);
-
+        toolbarExpandAnim.setDuration(animationDuration);
         toolbarExpandAnim.addListener(new SupportAnimator.AnimatorListener() {
             @Override
             public void onAnimationStart() {
@@ -277,10 +256,8 @@ public class SheetLayout extends FrameLayout implements View.OnTouchListener {
 
             @Override
             public void onAnimationEnd() {
-                mFab.setAlpha(1f);
-                mAnimatingFab = false;
-                if (mListener != null)
-                    mListener.onFabAnimationEnd();
+                //mFab.setAlpha(1f);
+                expandAnimationEnd();
 
             }
 
@@ -295,75 +272,32 @@ public class SheetLayout extends FrameLayout implements View.OnTouchListener {
             }
         });
 
-
-        // Play toolbar expand animation after slide animations finish.
         toolbarExpandAnim.start();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void contractLollipop() {
-        mAnimatingFab = true;
-
-        mFab.setAlpha(0f);
-        //mFab.setTranslationX(dx);
-        //mFab.setTranslationY(dy);
-        mFab.setVisibility(View.VISIBLE);
-
-        // Center point on the screen of the FAB before translation. Used as the start point
-        // for the expansion animation of the toolbar.
-        int x = (int) (ViewUtils.centerX(mFab));
-        int y = (int) (ViewUtils.centerY(mFab));
-
-        // Start and end radii of the toolbar contract animation.
-        float endRadius = getFabSizePx() / 2;
-        float startRadius = (float) Math.hypot(
-                Math.max(x, mFabExpandLayout.getWidth() - x),
-                Math.max(y, mFabExpandLayout.getHeight() - y));
-
-
+    private void contractLollipop(int x, int y, float startRadius, float endRadius) {
 
         Animator toolbarContractAnim = ViewAnimationUtils.createCircularReveal(
                 mFabExpandLayout, x, y, startRadius, endRadius);
-        toolbarContractAnim.setDuration(animationDuration / 2);
-
+        toolbarContractAnim.setDuration(animationDuration);
 
         toolbarContractAnim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                mFab.setAlpha(1f);
-                mFabExpandLayout.setAlpha(0f);
-
-                mAnimatingFab = false;
-                mFabExpandLayout.setVisibility(View.INVISIBLE);
-                mFabExpandLayout.setAlpha(1f);
+                contractAnimationEnd();
             }
         });
 
         toolbarContractAnim.start();
     }
 
-    private void contractPreLollipop() {
-        mAnimatingFab = true;
-
-        mFab.setAlpha(0f);
-        mFab.setVisibility(View.VISIBLE);
-
-        // Center point on the screen of the FAB before translation. Used as the start point
-        // for the expansion animation of the toolbar.
-        int x = (int) (ViewUtils.centerX(mFab));
-        int y = (int) (ViewUtils.centerY(mFab));
-
-        // Start and end radii of the toolbar contract animation.
-        float endRadius = getFabSizePx() / 2;
-        float startRadius = (float) Math.hypot(
-                Math.max(x, mFabExpandLayout.getWidth() - x),
-                Math.max(y, mFabExpandLayout.getHeight() - y));
+    private void contractPreLollipop(int x, int y, float startRadius, float endRadius) {
 
         final SupportAnimator toolbarContractAnim = io.codetail.animation.ViewAnimationUtils
-                .createCircularReveal(
-                        mFabExpandLayout, x, y, startRadius, endRadius);
-        toolbarContractAnim.setDuration(animationDuration / 2);
+                .createCircularReveal(mFabExpandLayout, x, y, startRadius, endRadius);
+        toolbarContractAnim.setDuration(animationDuration);
 
         toolbarContractAnim.addListener(new SupportAnimator.AnimatorListener() {
             @Override
@@ -373,12 +307,7 @@ public class SheetLayout extends FrameLayout implements View.OnTouchListener {
 
             @Override
             public void onAnimationEnd() {
-                mFab.setAlpha(1f);
-                mFabExpandLayout.setAlpha(0f);
-
-                mFabExpandLayout.setVisibility(View.INVISIBLE);
-                mFabExpandLayout.setAlpha(1f);
-                mAnimatingFab = false;
+                contractAnimationEnd();
             }
 
             @Override
@@ -395,9 +324,38 @@ public class SheetLayout extends FrameLayout implements View.OnTouchListener {
         toolbarContractAnim.start();
     }
 
+    private void expandAnimationEnd(){
+        mAnimatingFab = false;
+        if (mListener != null)
+            mListener.onFabAnimationEnd();
+    }
+
+    private void contractAnimationEnd(){
+        mFab.setAlpha(1f);
+        mFabExpandLayout.setAlpha(0f);
+
+        mAnimatingFab = false;
+        mFabExpandLayout.setVisibility(View.INVISIBLE);
+        mFabExpandLayout.setAlpha(1f);
+    }
+
+    private float calculateStartRadius(int x, int y){
+        return (float) Math.hypot(
+                Math.max(x, mFabExpandLayout.getWidth() - x),
+                Math.max(y, mFabExpandLayout.getHeight() - y));
+    }
+
     private int getFabSizePx() {
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         return Math.round(mFabSize * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+    private float centerX(View view) {
+        return ViewCompat.getX(view) + view.getWidth() / 2f;
+    }
+
+    private float centerY(View view) {
+        return ViewCompat.getY(view) + view.getHeight() / 2f;
     }
 
     public interface OnFabAnimationEndListener {

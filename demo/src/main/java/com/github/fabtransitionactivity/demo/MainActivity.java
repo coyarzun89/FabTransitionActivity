@@ -1,7 +1,6 @@
-package cl.cristopher.fabtransitionactivity.demo;
+package com.github.fabtransitionactivity.demo;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -18,8 +17,8 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cl.cristopher.fabtransitionactivity.SheetLayout;
-import cl.cristopher.fabtransitionactivity.demo.model.Mail;
+import com.github.fabtransitionactivity.SheetLayout;
+import com.github.fabtransitionactivity.demo.model.Mail;
 
 
 public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnimationEndListener {
@@ -29,6 +28,8 @@ public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnima
     @Bind(R.id.list_mails) ListView listMails;
 
     ArrayList<Mail> mailList = new ArrayList<>();
+
+    private static final int REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +53,17 @@ public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnima
     @Override
     public void onFabAnimationEnd() {
         Intent intent = new Intent(this, AfterFabAnimationActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE);
     }
 
-    @Override
-    protected void onStop (){
-        mSheetLayout.contractFab();
-        super.onStop();
-    }
+
+   @Override
+   public void onActivityResult(int requestCode, int resultCode, Intent data) {
+       super.onActivityResult(requestCode, resultCode, data);
+       if(requestCode == REQUEST_CODE){
+           mSheetLayout.contractFab();
+       }
+   }
 
 
     private void fillMailList(){
@@ -126,11 +130,11 @@ public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnima
     }
 
     private int setColorFilter(int color){
-        if((color%4) == 0) {
+        if((color % 4) == 0) {
             return ContextCompat.getColor(getApplicationContext(), R.color.one_round);
-        }if((color%3) == 0) {
+        }if((color % 3) == 0) {
             return ContextCompat.getColor(getApplicationContext(), R.color.two_round);
-        }if((color%2) == 0) {
+        }if((color % 2) == 0) {
             return ContextCompat.getColor(getApplicationContext(), R.color.three_round);
         }else {
             return ContextCompat.getColor(getApplicationContext(), R.color.four_round);

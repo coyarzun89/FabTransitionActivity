@@ -1,4 +1,4 @@
-package cl.cristopher.fabtransitionactivity.demo.model;
+package com.github.fabtransitionactivity.demo.model;
 
 /**
  * Created by Cristopher on 11/6/15.
