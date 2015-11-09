@@ -1,6 +1,6 @@
 # FabTransitionActivity
 
-It is strongly inspired by [FabTransitionLayout](https://github.com/bowyer-app/FabTransitionLayout)
+It is based on [FabTransitionLayout](https://github.com/bowyer-app/FabTransitionLayout)
 
 ![transitionactivity](https://github.com/coyarzun89/FabTransitionActivity/blob/master/art/fabTransitionActivity.gif)
 
@@ -95,3 +95,7 @@ public class MainActivity extends BaseActivity implements SheetLayout.OnFabAnima
        }
    }
 ```
+
+# Credits
+This library use following libraries.
+* [CircularReveal](https://github.com/ozodrukh/CircularReveal)
