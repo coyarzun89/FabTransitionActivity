@@ -13,9 +13,15 @@ repositories {
     mavenCentral()
 }
 
+defaultConfig {
+    minSdkVersion 14
+}
+
 dependencies {
     compile 'com.github.coyarzun89:fabtransitionactivity:0.1.0'
 }
+
+
 ```
 
 ### Layout XML
