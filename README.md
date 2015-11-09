@@ -4,6 +4,20 @@ It is based on [FabTransitionLayout](https://github.com/bowyer-app/FabTransition
 
 ![transitionactivity](https://github.com/coyarzun89/FabTransitionActivity/blob/master/art/fabTransitionActivity.gif)
 
+Usage
+====
+### build.gradle
+
+```
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.github.coyarzun89:fabtransitionactivity:0.1.0'
+}
+```
+
 ### Layout XML
 ```
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
