@@ -1,4 +1,5 @@
 # FabTransitionActivity
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-FabTransitionActivity-green.svg?style=true)](https://android-arsenal.com/details/1/2763)
 
 It is based on [FabTransitionLayout](https://github.com/bowyer-app/FabTransitionLayout)
 
