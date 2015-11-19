@@ -19,7 +19,7 @@ defaultConfig {
 }
 
 dependencies {
-    compile 'com.github.coyarzun89:fabtransitionactivity:0.1.0'
+    compile 'com.github.coyarzun89:fabtransitionactivity:0.1.1'
 }
 
 
