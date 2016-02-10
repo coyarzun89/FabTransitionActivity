@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "com.github.fabtransitionactivity.demo"
-        minSdkVersion MIN_SDK_VERSION
+        minSdkVersion 9 //MIN_SDK_VERSION as int
         targetSdkVersion TARGET_SDK_VERSION as int
         versionCode VERSION_CODE as int
         versionName VERSION_NAME
@@ -29,8 +29,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.0'
-    compile 'com.android.support:design:23.1.0'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile project(':fabtransitionactivity')
 }

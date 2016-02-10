@@ -1,6 +1,2 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.github.fabtransitionactivity">
-
-    <application android:allowBackup="true"/>
-
+<manifest package="com.github.fabtransitionactivity">
 </manifest>
