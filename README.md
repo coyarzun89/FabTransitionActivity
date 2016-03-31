@@ -5,21 +5,28 @@ It is based on [FabTransitionLayout](https://github.com/bowyer-app/FabTransition
 
 ![transitionactivity](https://github.com/coyarzun89/FabTransitionActivity/blob/master/art/fabTransitionActivity.gif)
 
+Warning: The new version 0.2.0 have minSdkVersion 15 because the [CircularReveal](https://github.com/ozodrukh/CircularReveal) project has moved from 14 to 15
+
 Usage
 ====
 ### build.gradle
 
 ```
+//this is very important, don't forget it
 repositories {
     mavenCentral()
+
+    maven {
+        url "https://jitpack.io"
+    }
 }
 
 defaultConfig {
-    minSdkVersion 14
+    minSdkVersion 15
 }
 
 dependencies {
-    compile 'com.github.coyarzun89:fabtransitionactivity:0.1.1'
+    compile 'com.github.coyarzun89:fabtransitionactivity:0.2.0'
 }
 
 

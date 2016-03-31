@@ -64,7 +64,7 @@ public class SheetLayout extends FrameLayout {
 
     private void init() {
         inflate(getContext(), R.layout.bottom_sheet_layout, this);
-        mFabExpandLayout = ((LinearLayout) findViewById(R.id.container));
+        mFabExpandLayout = ((LinearLayout) findViewById(R.id.ft_container));
     }
 
     private void loadAttributes(Context context, AttributeSet attrs) {
